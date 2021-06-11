@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title><%= html.title %></title>
+
+  <% if (pkg.description) { %>
+    <meta name="description" content="<%= pkg.description %>">
+  <% } %>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans%3A300,400,600,700">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+</head>
+<body>
+  <noscript>
+    We're sorry but <%= html.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.
+  </noscript>
+  
+  <div id="tooltip-controls">
+    <button id="bold-button"><i class="fa fa-bold"></i></button>
+    <button id="italic-button"><i class="fa fa-italic"></i></button>
+    <button id="link-button"><i class="fa fa-link"></i></button>
+    <button id="blockquote-button"><i class="fa fa-quote-right"></i></button>
+    <button class="header-button"><i class="fa fa-header"><sub>1</sub></i></button>
+    <button class="header-button"><i class="fa fa-header"><sub>2</sub></i></button>
+    <button class="header-button"><i class="fa fa-header"><sub>3</sub></i></button>
+    <button class="header-button"><i class="fa fa-header"><sub>4</sub></i></button>
+  </div>
+  <div id="sidebar-controls">
+    <button id="image-button"><i class="fa fa-camera"></i></button>
+    <button id="video-button"><i class="fa fa-play"></i></button>
+    <button id="tweet-button"><i class="fa fa-twitter"></i></button>
+    <button id="divider-button"><i class="fa fa-minus"></i></button>
+  </div>
+
+  <div id="editor-container">Tell your story...</div>
+
+  <div id="app"></div>
+</body>
+</html>

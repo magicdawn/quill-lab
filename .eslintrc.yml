@@ -1,0 +1,11 @@
+# root
+root: true
+
+env: 
+  browser: true
+
+global:
+  $: true
+
+extends:
+  - '@magicdawn/eslint-config/react'
