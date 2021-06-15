@@ -13,6 +13,7 @@ import Snow from 'quill/themes/snow'
 const quill = new Quill('#editor-container')
 const Inline = Quill.import('blots/inline')
 const Block = Quill.import('blots/block')
+const BlockEmbed = Quill.import('blots/block/embed')
 window.quill = quill
 
 // basic formatting
@@ -70,11 +71,51 @@ class Header extends Block {
   }
 }
 
+class Divider extends BlockEmbed {
+  static blotName = 'divider'
+  static tagName = 'hr'
+
+  static create(value) {
+    return super.create(value)
+  }
+
+  static value(node) {
+    return super.value(node)
+  }
+
+  static formats(node) {
+    return super.formats(node)
+  }
+}
+
+class Image extends BlockEmbed {
+  static blotName = 'image'
+  static tagName = 'img'
+
+  static create(value) {
+    const node = super.create()
+    for (let [key, val] of Object.entries(value)) {
+      node.setAttribute(key, val)
+    }
+    return node
+  }
+
+  static value(node) {
+    const keys = ['src', 'alt', 'width', 'height']
+    return keys.reduce((o, k) => {
+      o[k] = node.getAttribute(k)
+      return o
+    }, {})
+  }
+}
+
 Quill.register(Bold)
 Quill.register(Italic)
 Quill.register(Link)
 Quill.register(Blockquote)
 Quill.register(Header)
+Quill.register(Divider)
+Quill.register(Image)
 
 $('#bold-button').click(() => {
   quill.format('bold', true)
@@ -97,6 +138,30 @@ $('#blockquote-button').click(() => {
 $('.header-button').click(function () {
   const level = $(this).find('sub').text()
   quill.format('header', {tagName: 'H' + level})
+})
+
+$('#divider-button').click(() => {
+  const range = quill.getSelection(true)
+  // quill.insertText(range.index, '\n', Quill.sources.USER) // 没必要这一步, 在 dom 结构上看不出来, quill will do this after `insertEmbed`
+  quill.insertEmbed(range.index, 'divider', true, Quill.sources.USER)
+  quill.setSelection(range.index + 1, Quill.sources.SILENT)
+})
+
+$('#image-button').click(() => {
+  const {index} = quill.getSelection(true)
+  quill.insertText(index, '\n', Quill.sources.USER)
+  quill.insertEmbed(
+    index + 1,
+    'image',
+    {
+      src: 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
+      alt: 'bd logo',
+      width: 100,
+      height: 100,
+    },
+    Quill.sources.USER
+  )
+  quill.setSelection(index + 2, Quill.sources.SILENT)
 })
 
 // API usage
